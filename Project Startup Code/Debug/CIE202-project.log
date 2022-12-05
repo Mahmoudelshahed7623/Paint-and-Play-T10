@@ -1,0 +1,4 @@
+﻿cl : command line  warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+  GUI.cpp
+D:\Project Startup Code\GUI\GUI.cpp(316,36): warning C4244: 'argument': conversion from 'double' to 'const int', possible loss of data
+  CIE202-project.vcxproj -> D:\Project Startup Code\Debug\CIE202-project.exe

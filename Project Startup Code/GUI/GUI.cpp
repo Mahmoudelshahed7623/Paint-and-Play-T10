@@ -1,5 +1,5 @@
 #include "GUI.h"
-
+#include "math.h"
 GUI::GUI()
 {
 	//Initialize user interface parameters
@@ -89,6 +89,9 @@ operationType GUI::GetUseroperation() const
 			{
 			case ICON_RECT: return DRAW_RECT;
 			case ICON_CIRC: return DRAW_CIRC;
+			case ICON_TRI: return DRAW_TRI;
+			case ICON_LINE: return DRAW_LINE;
+			case ICON_SQUARE: return DRAW_SQ;
 			case ICON_EXIT: return EXIT;
 
 			default: return EMPTY;	//A click on empty place in desgin toolbar
@@ -158,8 +161,12 @@ void GUI::CreateDrawToolBar()
 	string MenuIconImages[DRAW_ICON_COUNT];
 	MenuIconImages[ICON_RECT] = "images\\MenuIcons\\Menu_Rect.jpg";
 	MenuIconImages[ICON_CIRC] = "images\\MenuIcons\\Menu_Circ.jpg";
+	MenuIconImages[ICON_TRI] = "images\\MenuIcons\\Menu_Triangle.jpg";
+	MenuIconImages[ICON_LINE ] = "images\\MenuIcons\\Menu_Line.jpg";
+	MenuIconImages[ICON_SQUARE] = "images\\MenuIcons\\Menu_Square.jpg";
 	MenuIconImages[ICON_EXIT] = "images\\MenuIcons\\Menu_Exit.jpg";
 
+	
 	//TODO: Prepare images for each menu icon and add it to the list
 
 	//Draw menu icon one image at a time
@@ -244,8 +251,98 @@ void GUI::DrawRect(Point P1, Point P2, GfxInfo RectGfxInfo) const
 	pWind->DrawRectangle(P1.x, P1.y, P2.x, P2.y, style);
 
 }
+void GUI::DrawTrian(Point P1,Point P2,Point P3, GfxInfo TrianGfxInfo)const
+{
+	color DrawingClr;
+	if (TrianGfxInfo.isSelected)	//shape is selected
+		DrawingClr = HighlightColor; //shape should be drawn highlighted
+	else
+		DrawingClr = TrianGfxInfo.DrawClr;
+
+	pWind->SetPen(DrawingClr, TrianGfxInfo.BorderWdth);	//Set Drawing color & width
+
+	drawstyle style;
+	if (TrianGfxInfo.isFilled)
+	{
+		style = FILLED;
+		pWind->SetBrush(TrianGfxInfo.FillClr);
+	}
+	else
+		style = FRAME;
+
+	pWind->DrawTriangle(P1.x, P1.y, P2.x, P2.y,P3.x,P3.y, style);
+}
+void GUI::DrawLi(Point P1, Point P2, GfxInfo LiGfxInfo) const
+{
+	color DrawingClr;
+	if (LiGfxInfo.isSelected)	//shape is selected
+		DrawingClr = HighlightColor; //shape should be drawn highlighted
+	else
+		DrawingClr = LiGfxInfo.DrawClr;
+
+	pWind->SetPen(DrawingClr, LiGfxInfo.BorderWdth);	//Set Drawing color & width
+
+	drawstyle style;
+	if (LiGfxInfo.isFilled)
+	{
+		style = FILLED;
+		pWind->SetBrush(LiGfxInfo.FillClr);
+	}
+	else
+		style = FRAME;
+
+	pWind->DrawLine(P1.x, P1.y, P2.x, P2.y, style);
+
+}
+void GUI::DrawCircle(Point P1, Point P2, GfxInfo RectGfxInfo) const
+{
+	color DrawingClr;
+	if (RectGfxInfo.isSelected)	//shape is selected
+		DrawingClr = HighlightColor; //shape should be drawn highlighted
+	else
+		DrawingClr = RectGfxInfo.DrawClr;
+
+	pWind->SetPen(DrawingClr, RectGfxInfo.BorderWdth);	//Set Drawing color & width
+
+	drawstyle style;
+	if (RectGfxInfo.isFilled)
+	{
+		style = FILLED;
+		pWind->SetBrush(RectGfxInfo.FillClr);
+	}
+	else
+		style = FRAME;
+
+	pWind->DrawCircle(P1.x, P1.y, sqrt(pow(P2.x - P1.x, 2) + pow(P2.y - P1.y, 2)) 
+	, style);
+
+}
+
+void GUI::DrawSq(Point P1, Point P2, const GfxInfo SqGfxInfo) const
+{
+	color DrawingClr;
+	if (SqGfxInfo.isSelected)	//shape is selected
+		DrawingClr = HighlightColor; //shape should be drawn highlighted
+	else
+		DrawingClr = SqGfxInfo.DrawClr;
+
+	pWind->SetPen(DrawingClr, SqGfxInfo.BorderWdth);	//Set Drawing color & width
+
+	drawstyle style;
+	if (SqGfxInfo.isFilled)
+	{
+		style = FILLED;
+		pWind->SetBrush(SqGfxInfo.FillClr);
+	}
+	else
+		style = FRAME;
 
 
+	pWind->DrawRectangle(P1.x, P1.y, P2.x, P2.y, style);
+
+};
+		
+	
 //////////////////////////////////////////////////////////////////////////////////////////
 GUI::~GUI()
 {

@@ -8,8 +8,7 @@
 opAddRect::opAddRect(controller * pCont):operation(pCont)
 {}
 opAddRect::~opAddRect()
-{} 
-
+{}
 //Execute the operation
 void opAddRect::Execute() 
 {
